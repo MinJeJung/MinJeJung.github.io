@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>선비북스 | 당신의 이야기를 책으로</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    
+    body {
+      touch-action: none;
+    }
+    
+    #canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      mix-blend-mode: difference;
+    }
+    
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      margin-left: 32px;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+    
+    nav a:hover {
+      opacity: 1;
+    }
+    
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px;
+    }
+    
+    .hero h1 {
+      font-size: clamp(48px, 12vw, 140px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -4px;
+      text-transform: uppercase;
+      text-shadow: 0 0 60px rgba(0,0,0,0.8);
+      margin-bottom: 16px;
+      user-select: none;
+    }
+    
+    .hero p {
+      font-size: clamp(16px, 2vw, 20px);
+      opacity: 0.6;
+      max-width: 400px;
+      margin-bottom: 40px;
+      text-shadow: 0 0 20px rgba(0,0,0,1);
+      user-select: none;
+    }
+    
+    .cta-btn {
+      display: inline-block;
+      padding: 18px 40px;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.05);
+      transition: all 0.4s;
+    }
+    
+    .cta-btn:hover {
+      background: #fff;
+      color: #0a0a0a;
+      transform: scale(1.05);
+    }
+    
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      letter-spacing: 2px;
+      opacity: 0.4;
+      text-transform: uppercase;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(10px); }
+    }
+    
+    /* Sections */
+    section {
+      min-height: 100vh;
+      padding: 120px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .section-label {
+      font-size: 12px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 24px;
+    }
+    
+    h2 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 60px;
+      max-width: 700px;
+    }
+    
+    /* Process */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      max-width: 1200px;
+    }
+    
+    .process-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 48px 32px;
+      transition: all 0.4s;
+      cursor: pointer;
+    }
+    
+    .process-item:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-4px);
+    }
+    
+    .process-number {
+      font-size: 48px;
+      font-weight: 800;
+      opacity: 0.15;
+      margin-bottom: 24px;
+    }
+    
+    .process-item h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .process-item p {
+      font-size: 14px;
+      opacity: 0.5;
+      line-height: 1.7;
+    }
+    
+    /* Features */
+    .features-list {
+      max-width: 800px;
+    }
+    
+    .feature-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.3s;
+    }
+    
+    .feature-row:hover {
+      padding-left: 20px;
+    }
+    
+    .feature-row h3 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .feature-row span {
+      font-size: 14px;
+      opacity: 0.4;
+      max-width: 300px;
+      text-align: right;
+    }
+    
+    /* Contact */
+    .contact-section {
+      background: rgba(255,255,255,0.02);
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1000px;
+    }
+    
+    .contact-info h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+    
+    .contact-info p {
+      font-size: 14px;
+      opacity: 0.4;
+      line-height: 1.8;
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      opacity: 0.4;
+      margin-bottom: 12px;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 16px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 16px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.6);
+    }
+    
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+    
+    .submit-btn {
+      padding: 18px 48px;
+      background: #fff;
+      color: #0a0a0a;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .submit-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 10px 40px rgba(255,255,255,0.2);
+    }
+    
+    /* Footer */
+    footer {
+      padding: 40px 48px;
+      text-align: center;
+      font-size: 12px;
+      opacity: 0.3;
+    }
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      header {
+        padding: 20px 24px;
+      }
+      
+      nav { display: none; }
+      
+      section {
+        padding: 80px 24px;
+      }
+      
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .feature-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      
+      .feature-row span {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  
+  <div class="content">
+    <header>
+      <div class="logo">선비북스</div>
+      <nav>
+        <a href="#process">프로세스</a>
+        <a href="#features">장점</a>
+        <a href="#contact">상담신청</a>
+      </nav>
+    </header>
+    
+    <section class="hero">
+      <h1>Your Story<br>Into Book</h1>
+      <p>당신의 이야기를 책으로 만들어 드립니다. 기획부터 출간까지, 전문가와 함께하는 맞춤형 출판 서비스.</p>
+      <a href="#contact" class="cta-btn">출판 상담 신청</a>
+      <div class="scroll-hint">Scroll</div>
+    </section>
+    
+    <section id="process">
+      <span class="section-label">Process</span>
+      <h2>원고에서 책이 되기까지<br>모든 과정을 함께합니다</h2>
+      <div class="process-grid">
+        <div class="process-item">
+          <div class="process-number">01</div>
+          <h3>상담 및 기획</h3>
+          <p>원고 검토와 시장 분석을 통해 최적의 출판 방향을 설정합니다.</p>
+        </div>
+        <div class="process-item">
+          <div class="process-number">02</div>
+          <h3>원고 편집</h3>
+          <p>전문 에디터가 문장과 구성을 다듬어 완성도를 높입니다.</p>
+        </div>
+        <div class="process-item">
+          <div class="process-number">03</div>
+          <h3>디자인</h3>
+          <p>표지와 내지 디자인으로 책의 첫인상을 완성합니다.</p>
+        </div>
+        <div class="process-item">
+          <div class="process-number">04</div>
+          <h3>출간 및 유통</h3>
+          <p>ISBN 등록부터 서점 입점까지 모든 유통 경로를 열어드립니다.</p>
+        </div>
+      </div>
+    </section>
+    
+    <section id="features">
+      <span class="section-label">Why Us</span>
+      <h2>선비북스가<br>특별한 이유</h2>
+      <div class="features-list">
+        <div class="feature-row">
+          <h3>1:1 맞춤 컨설팅</h3>
+          <span>전담 에디터가 기획부터 출간까지 동행합니다</span>
+        </div>
+        <div class="feature-row">
+          <h3>투명한 비용 정책</h3>
+          <span>숨겨진 비용 없이 명확한 견적을 제공합니다</span>
+        </div>
+        <div class="feature-row">
+          <h3>빠른 출간 프로세스</h3>
+          <span>효율적인 시스템으로 출간 기간을 단축합니다</span>
+        </div>
+        <div class="feature-row">
+          <h3>출간 후 마케팅</h3>
+          <span>홍보 전략 수립과 판매 채널 확대를 지원합니다</span>
+        </div>
+      </div>
+    </section>
+    
+    <section class="contact-section" id="contact">
+      <span class="section-label">Contact</span>
+      <h2>출판 상담 신청</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>연락처를 남겨주세요</h3>
+          <p>24시간 내에 담당자가 연락드립니다.<br>원고가 준비되지 않아도 괜찮습니다.<br>아이디어 단계에서부터 상담 가능합니다.</p>
+        </div>
+        <form id="contactForm">
+          <div class="form-group">
+            <label>이름</label>
+            <input type="text" id="name" placeholder="홍길동" required>
+          </div>
+          <div class="form-group">
+            <label>이메일</label>
+            <input type="email" id="email" placeholder="example@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>연락처</label>
+            <input type="tel" id="phone" placeholder="010-0000-0000" required>
+          </div>
+          <div class="form-group">
+            <label>문의 내용</label>
+            <textarea id="message" rows="3" placeholder="간단한 소개나 궁금한 점을 적어주세요"></textarea>
+          </div>
+          <button type="submit" class="submit-btn">상담 신청하기</button>
+        </form>
+      </div>
+    </section>
+    
+    <footer>
+      <p>© 2025 선비북스. All rights reserved.</p>
+    </footer>
+  </div>
+  
+  <script type="module">
+    import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
+    
+    const app = TubesCursor(document.getElementById('canvas'), {
+      tubes: {
+        colors: ["#4a90d9", "#7c3aed", "#06b6d4"],
+        lights: {
+          intensity: 180,
+          colors: ["#60a5fa", "#a78bfa", "#22d3ee", "#f472b6"]
+        }
+      }
+    });
+    
+    // Click to change colors
+    document.body.addEventListener('click', () => {
+      const colors = randomColors(3);
+      const lightsColors = randomColors(4);
+      app.tubes.setColors(colors);
+      app.tubes.setLightsColors(lightsColors);
+    });
+    
+    function randomColors(count) {
+      return new Array(count)
+        .fill(0)
+        .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+    }
+    
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // Form
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      alert(`감사합니다, ${name}님!\n상담 신청이 완료되었습니다.`);
+      this.reset();
+    });
+  </script>
+</body>
+</html>
