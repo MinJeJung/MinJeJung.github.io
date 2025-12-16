@@ -1,0 +1,748 @@
+/* ========================================
+   기본 설정 (리셋 및 공통 스타일)
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #1a1a2e;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.section-subtitle {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin-bottom: 50px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: rgba(255, 255, 255, 0.95);
+    color: #667eea;
+    backdrop-filter: blur(10px);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+}
+
+
+/* ========================================
+   패럴랙스 배경 SVG
+   ======================================== */
+.parallax-bg {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+
+/* ========================================
+   스크롤 컨테이너
+   ======================================== */
+.scroll-container {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ========================================
+   네비게이션 바
+   ======================================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-menu a {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    transition: color 0.3s;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu a:hover {
+    color: #ffd700;
+}
+
+
+/* ========================================
+   히어로 섹션
+   ======================================== */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+    position: relative;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content .highlight {
+    color: #ffd700;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    opacity: 0.95;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 히어로 통계 */
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-bottom: 40px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+/* 스크롤 인디케이터 */
+.scroll-indicator {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.8;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator span {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    transform: rotate(45deg);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+
+/* ========================================
+   섹션 공통
+   ======================================== */
+.section {
+    padding: 100px 0;
+    position: relative;
+}
+
+
+/* ========================================
+   자기소개 섹션
+   ======================================== */
+.about {
+    background: rgba(26, 26, 46, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.profile-placeholder {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.1rem;
+    box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+}
+
+.about-text h3 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.about-text p {
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 25px;
+}
+
+.about-list {
+    display: grid;
+    gap: 12px;
+}
+
+.about-list li {
+    padding-left: 25px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.about-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #ffd700;
+    font-weight: bold;
+}
+
+
+/* ========================================
+   전문분야 섹션
+   ======================================== */
+.expertise {
+    background: rgba(43, 40, 80, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.expertise-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expertise-card:hover {
+    transform: translateY(-10px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.expertise-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+}
+
+.expertise-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.expertise-card > p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.expertise-card ul {
+    text-align: left;
+}
+
+.expertise-card ul li {
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expertise-card ul li:last-child {
+    border-bottom: none;
+}
+
+.expertise-card ul li::before {
+    content: "•";
+    position: absolute;
+    left: 5px;
+    color: #ffd700;
+}
+
+
+/* ========================================
+   클라이언트 (강의이력) 섹션
+   ======================================== */
+.clients {
+    background: rgba(26, 26, 46, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+.client-category {
+    margin-bottom: 40px;
+}
+
+.client-category h3 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-left: 4px solid #ffd700;
+}
+
+.client-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.client-tag {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.client-tag:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateY(-2px);
+}
+
+
+/* ========================================
+   저서 섹션
+   ======================================== */
+.books {
+    background: rgba(61, 58, 109, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.books-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.book-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.book-card:hover {
+    transform: translateY(-8px);
+}
+
+.book-cover {
+    height: 180px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.book-info {
+    padding: 20px;
+}
+
+.book-year {
+    display: inline-block;
+    padding: 3px 10px;
+    background: rgba(102, 126, 234, 0.3);
+    color: #ffd700;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.book-info h3 {
+    font-size: 1rem;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.book-info p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+
+/* ========================================
+   자격사항 섹션
+   ======================================== */
+.credentials {
+    background: rgba(26, 26, 46, 0.85);
+    backdrop-filter: blur(10px);
+}
+
+.credentials-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.credential-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.credential-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.credential-item strong {
+    display: block;
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 3px;
+}
+
+.credential-item p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+
+/* ========================================
+   연락처 섹션
+   ======================================== */
+.contact {
+    background: rgba(43, 40, 80, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+}
+
+.contact-info h3 {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.contact-info > p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 30px;
+}
+
+.contact-list li {
+    margin-bottom: 20px;
+}
+
+.contact-list strong {
+    display: block;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.contact-list span {
+    color: #ffd700;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s, background 0.3s;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #ffd700;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.contact-form button {
+    width: 100%;
+}
+
+
+/* ========================================
+   푸터
+   ======================================== */
+.footer {
+    background: rgba(26, 26, 46, 0.95);
+    color: white;
+    padding: 40px 0;
+    backdrop-filter: blur(10px);
+}
+
+.footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer p {
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 30px;
+}
+
+.social-links a {
+    color: white;
+    opacity: 0.7;
+    transition: all 0.3s;
+}
+
+.social-links a:hover {
+    opacity: 1;
+    color: #ffd700;
+}
+
+
+/* ========================================
+   반응형 디자인
+   ======================================== */
+
+/* 태블릿 (1024px 이하) */
+@media (max-width: 1024px) {
+    .expertise-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .books-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .credentials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .profile-placeholder {
+        margin: 0 auto;
+    }
+
+    .about-list {
+        text-align: left;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+/* 모바일 (768px 이하) */
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-stats {
+        gap: 30px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .expertise-grid,
+    .books-grid,
+    .credentials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+
+    .footer .container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    .client-tags {
+        justify-content: center;
+    }
+
+    .scroll-indicator {
+        margin-top: 40px;
+    }
+}
