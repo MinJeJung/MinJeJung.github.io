@@ -1,517 +1,504 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>선비북스 | 당신의 이야기를 책으로</title>
-  
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body, html {
-      width: 100%;
-      height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
-      background: #0a0a0a;
-      color: #fff;
-      overflow-x: hidden;
-    }
-    
-    body {
-      touch-action: none;
-    }
-    
-    #canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-    
-    .content {
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* Header */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      padding: 24px 48px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 100;
-      mix-blend-mode: difference;
-    }
-    
-    .logo {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 14px;
-      margin-left: 32px;
-      opacity: 0.7;
-      transition: opacity 0.3s;
-    }
-    
-    nav a:hover {
-      opacity: 1;
-    }
-    
-    /* Hero */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 40px;
-    }
-    
-    .hero h1 {
-      font-size: clamp(48px, 12vw, 140px);
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -4px;
-      text-transform: uppercase;
-      text-shadow: 0 0 60px rgba(0,0,0,0.8);
-      margin-bottom: 16px;
-      user-select: none;
-    }
-    
-    .hero p {
-      font-size: clamp(16px, 2vw, 20px);
-      opacity: 0.6;
-      max-width: 400px;
-      margin-bottom: 40px;
-      text-shadow: 0 0 20px rgba(0,0,0,1);
-      user-select: none;
-    }
-    
-    .cta-btn {
-      display: inline-block;
-      padding: 18px 40px;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #fff;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      border-radius: 50px;
-      backdrop-filter: blur(10px);
-      background: rgba(255,255,255,0.05);
-      transition: all 0.4s;
-    }
-    
-    .cta-btn:hover {
-      background: #fff;
-      color: #0a0a0a;
-      transform: scale(1.05);
-    }
-    
-    .scroll-hint {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      letter-spacing: 2px;
-      opacity: 0.4;
-      text-transform: uppercase;
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(10px); }
-    }
-    
-    /* Sections */
-    section {
-      min-height: 100vh;
-      padding: 120px 48px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    
-    .section-label {
-      font-size: 12px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      opacity: 0.4;
-      margin-bottom: 24px;
-    }
-    
-    h2 {
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 60px;
-      max-width: 700px;
-    }
-    
-    /* Process */
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      max-width: 1200px;
-    }
-    
-    .process-item {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 48px 32px;
-      transition: all 0.4s;
-      cursor: pointer;
-    }
-    
-    .process-item:hover {
-      background: rgba(255,255,255,0.08);
-      transform: translateY(-4px);
-    }
-    
-    .process-number {
-      font-size: 48px;
-      font-weight: 800;
-      opacity: 0.15;
-      margin-bottom: 24px;
-    }
-    
-    .process-item h3 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    
-    .process-item p {
-      font-size: 14px;
-      opacity: 0.5;
-      line-height: 1.7;
-    }
-    
-    /* Features */
-    .features-list {
-      max-width: 800px;
-    }
-    
-    .feature-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 32px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      transition: all 0.3s;
-    }
-    
-    .feature-row:hover {
-      padding-left: 20px;
-    }
-    
-    .feature-row h3 {
-      font-size: 24px;
-      font-weight: 600;
-    }
-    
-    .feature-row span {
-      font-size: 14px;
-      opacity: 0.4;
-      max-width: 300px;
-      text-align: right;
-    }
-    
-    /* Contact */
-    .contact-section {
-      background: rgba(255,255,255,0.02);
-    }
-    
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      max-width: 1000px;
-    }
-    
-    .contact-info h3 {
-      font-size: 20px;
-      margin-bottom: 16px;
-      opacity: 0.6;
-    }
-    
-    .contact-info p {
-      font-size: 14px;
-      opacity: 0.4;
-      line-height: 1.8;
-    }
-    
-    .form-group {
-      margin-bottom: 24px;
-    }
-    
-    .form-group label {
-      display: block;
-      font-size: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      opacity: 0.4;
-      margin-bottom: 12px;
-    }
-    
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 16px 0;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      font-size: 16px;
-      font-family: inherit;
-      transition: border-color 0.3s;
-    }
-    
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: rgba(255,255,255,0.6);
-    }
-    
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: rgba(255,255,255,0.3);
-    }
-    
-    .submit-btn {
-      padding: 18px 48px;
-      background: #fff;
-      color: #0a0a0a;
-      border: none;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .submit-btn:hover {
-      transform: scale(1.02);
-      box-shadow: 0 10px 40px rgba(255,255,255,0.2);
-    }
-    
-    /* Footer */
-    footer {
-      padding: 40px 48px;
-      text-align: center;
-      font-size: 12px;
-      opacity: 0.3;
-    }
-    
-    /* Responsive */
-    @media (max-width: 900px) {
-      .process-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-    }
-    
-    @media (max-width: 600px) {
-      header {
-        padding: 20px 24px;
-      }
-      
-      nav { display: none; }
-      
-      section {
-        padding: 80px 24px;
-      }
-      
-      .process-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .feature-row {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-      }
-      
-      .feature-row span {
-        text-align: left;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정민제 강사 | 생성형 AI & 관광 전문 강사</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- GSAP 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
-  
-  <div class="content">
-    <header>
-      <div class="logo">선비북스</div>
-      <nav>
-        <a href="#process">프로세스</a>
-        <a href="#features">장점</a>
-        <a href="#contact">상담신청</a>
-      </nav>
-    </header>
-    
-    <section class="hero">
-      <h1>Your Story<br>Into Book</h1>
-      <p>당신의 이야기를 책으로 만들어 드립니다. 기획부터 출간까지, 전문가와 함께하는 맞춤형 출판 서비스.</p>
-      <a href="#contact" class="cta-btn">출판 상담 신청</a>
-      <div class="scroll-hint">Scroll</div>
-    </section>
-    
-    <section id="process">
-      <span class="section-label">Process</span>
-      <h2>원고에서 책이 되기까지<br>모든 과정을 함께합니다</h2>
-      <div class="process-grid">
-        <div class="process-item">
-          <div class="process-number">01</div>
-          <h3>상담 및 기획</h3>
-          <p>원고 검토와 시장 분석을 통해 최적의 출판 방향을 설정합니다.</p>
-        </div>
-        <div class="process-item">
-          <div class="process-number">02</div>
-          <h3>원고 편집</h3>
-          <p>전문 에디터가 문장과 구성을 다듬어 완성도를 높입니다.</p>
-        </div>
-        <div class="process-item">
-          <div class="process-number">03</div>
-          <h3>디자인</h3>
-          <p>표지와 내지 디자인으로 책의 첫인상을 완성합니다.</p>
-        </div>
-        <div class="process-item">
-          <div class="process-number">04</div>
-          <h3>출간 및 유통</h3>
-          <p>ISBN 등록부터 서점 입점까지 모든 유통 경로를 열어드립니다.</p>
-        </div>
-      </div>
-    </section>
-    
-    <section id="features">
-      <span class="section-label">Why Us</span>
-      <h2>선비북스가<br>특별한 이유</h2>
-      <div class="features-list">
-        <div class="feature-row">
-          <h3>1:1 맞춤 컨설팅</h3>
-          <span>전담 에디터가 기획부터 출간까지 동행합니다</span>
-        </div>
-        <div class="feature-row">
-          <h3>투명한 비용 정책</h3>
-          <span>숨겨진 비용 없이 명확한 견적을 제공합니다</span>
-        </div>
-        <div class="feature-row">
-          <h3>빠른 출간 프로세스</h3>
-          <span>효율적인 시스템으로 출간 기간을 단축합니다</span>
-        </div>
-        <div class="feature-row">
-          <h3>출간 후 마케팅</h3>
-          <span>홍보 전략 수립과 판매 채널 확대를 지원합니다</span>
-        </div>
-      </div>
-    </section>
-    
-    <section class="contact-section" id="contact">
-      <span class="section-label">Contact</span>
-      <h2>출판 상담 신청</h2>
-      <div class="contact-grid">
-        <div class="contact-info">
-          <h3>연락처를 남겨주세요</h3>
-          <p>24시간 내에 담당자가 연락드립니다.<br>원고가 준비되지 않아도 괜찮습니다.<br>아이디어 단계에서부터 상담 가능합니다.</p>
-        </div>
-        <form id="contactForm">
-          <div class="form-group">
-            <label>이름</label>
-            <input type="text" id="name" placeholder="홍길동" required>
-          </div>
-          <div class="form-group">
-            <label>이메일</label>
-            <input type="email" id="email" placeholder="example@email.com" required>
-          </div>
-          <div class="form-group">
-            <label>연락처</label>
-            <input type="tel" id="phone" placeholder="010-0000-0000" required>
-          </div>
-          <div class="form-group">
-            <label>문의 내용</label>
-            <textarea id="message" rows="3" placeholder="간단한 소개나 궁금한 점을 적어주세요"></textarea>
-          </div>
-          <button type="submit" class="submit-btn">상담 신청하기</button>
-        </form>
-      </div>
-    </section>
-    
-    <footer>
-      <p>© 2025 선비북스. All rights reserved.</p>
-    </footer>
-  </div>
-  
-  <script type="module">
-    import TubesCursor from "https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js";
-    
-    const app = TubesCursor(document.getElementById('canvas'), {
-      tubes: {
-        colors: ["#4a90d9", "#7c3aed", "#06b6d4"],
-        lights: {
-          intensity: 180,
-          colors: ["#60a5fa", "#a78bfa", "#22d3ee", "#f472b6"]
-        }
-      }
-    });
-    
-    // Click to change colors
-    document.body.addEventListener('click', () => {
-      const colors = randomColors(3);
-      const lightsColors = randomColors(4);
-      app.tubes.setColors(colors);
-      app.tubes.setLightsColors(lightsColors);
-    });
-    
-    function randomColors(count) {
-      return new Array(count)
-        .fill(0)
-        .map(() => "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
-    }
-    
-    // Smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
+    <!-- ========== 배경 SVG (패럴랙스) ========== -->
+    <svg class="parallax-bg" viewBox="0 0 750 500" preserveAspectRatio="xMidYMax slice">
+        <defs>
+            <!-- 배경 그라데이션 -->
+            <radialGradient id="sky-grad" cx="375" cy="0" r="400" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#667eea" id="sky-center"/>
+                <stop offset="0.3" stop-color="#764ba2"/>
+                <stop offset="0.6" stop-color="#f093fb"/>
+                <stop offset="1" stop-color="#f5576c"/>
+            </radialGradient>
+            <!-- 언덕 그라데이션 -->
+            <linearGradient id="hill-grad-1" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2b2850"/>
+                <stop offset="100%" stop-color="#1a1a2e"/>
+            </linearGradient>
+            <linearGradient id="hill-grad-2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#3d3a6d"/>
+                <stop offset="100%" stop-color="#2b2850"/>
+            </linearGradient>
+            <linearGradient id="hill-grad-3" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#564d7a"/>
+                <stop offset="100%" stop-color="#3d3a6d"/>
+            </linearGradient>
+        </defs>
+
+        <!-- 배경 -->
+        <rect id="sky" width="750" height="500" fill="url(#sky-grad)"/>
+
+        <!-- 태양/달 -->
+        <circle id="sun" cx="375" cy="80" r="50" fill="#ffd700" opacity="0.9"/>
+
+        <!-- 구름 -->
+        <g id="clouds" fill="rgba(255,255,255,0.6)">
+            <ellipse id="cloud1" cx="150" cy="100" rx="60" ry="25"/>
+            <ellipse id="cloud2" cx="600" cy="80" rx="80" ry="30"/>
+            <ellipse id="cloud3" cx="400" cy="120" rx="50" ry="20"/>
+        </g>
+
+        <!-- 별 (밤에 나타남) -->
+        <g id="stars" fill="#fff" opacity="0">
+            <circle cx="100" cy="50" r="1.5"/>
+            <circle cx="200" cy="80" r="1"/>
+            <circle cx="300" cy="40" r="1.5"/>
+            <circle cx="450" cy="70" r="1"/>
+            <circle cx="550" cy="30" r="1.5"/>
+            <circle cx="650" cy="90" r="1"/>
+            <circle cx="700" cy="50" r="1.5"/>
+            <circle cx="50" cy="120" r="1"/>
+            <circle cx="250" cy="130" r="1.5"/>
+            <circle cx="500" cy="110" r="1"/>
+        </g>
+
+        <!-- 언덕 레이어들 -->
+        <path id="hill-3" d="M0,350 Q150,280 300,320 T600,300 T750,340 L750,500 L0,500 Z" fill="url(#hill-grad-3)"/>
+        <path id="hill-2" d="M0,380 Q200,320 400,360 T750,380 L750,500 L0,500 Z" fill="url(#hill-grad-2)"/>
+        <path id="hill-1" d="M0,420 Q180,370 350,400 T750,420 L750,500 L0,500 Z" fill="url(#hill-grad-1)"/>
+    </svg>
+
+    <!-- ========== 스크롤 컨테이너 ========== -->
+    <div class="scroll-container">
+
+        <!-- ========== 네비게이션 바 ========== -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">정민제 강사</a>
+                <ul class="nav-menu">
+                    <li><a href="#about">소개</a></li>
+                    <li><a href="#expertise">전문분야</a></li>
+                    <li><a href="#clients">강의이력</a></li>
+                    <li><a href="#books">저서</a></li>
+                    <li><a href="#contact">문의</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- ========== 히어로 섹션 ========== -->
+        <section class="hero" id="hero">
+            <div class="hero-content" data-animate="fadeUp">
+                <h1>안녕하세요,<br><span class="highlight">정민제</span> 강사입니다</h1>
+                <p class="hero-subtitle">생성형 AI · 관광산업 · 글쓰기 전문 강사<br>SK, LG, 한국관광공사 등 100+ 기관 출강</p>
+                <div class="hero-stats">
+                    <div class="stat-item" data-animate="fadeUp" data-delay="0.2">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">출강 기관</span>
+                    </div>
+                    <div class="stat-item" data-animate="fadeUp" data-delay="0.4">
+                        <span class="stat-number">6권</span>
+                        <span class="stat-label">저서 출간</span>
+                    </div>
+                    <div class="stat-item" data-animate="fadeUp" data-delay="0.6">
+                        <span class="stat-number">300+</span>
+                        <span class="stat-label">컨설팅 건수</span>
+                    </div>
+                </div>
+                <a href="#contact" class="btn btn-primary">강의 문의하기</a>
+                <div class="scroll-indicator">
+                    <span>스크롤</span>
+                    <div class="scroll-arrow"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 자기소개 섹션 ========== -->
+        <section id="about" class="about section">
+            <div class="container">
+                <h2 class="section-title" data-animate="fadeUp">About Me</h2>
+                <div class="about-content">
+                    <div class="about-image" data-animate="fadeLeft">
+                        <div class="profile-placeholder">
+                            <span>프로필 사진</span>
+                        </div>
+                    </div>
+                    <div class="about-text" data-animate="fadeRight">
+                        <h3>생성형 AI와 관광의 연결고리, 정민제입니다</h3>
+                        <p>
+                            한국외국어대학교에서 영문학과 언론정보학을 전공하고,
+                            현재 도서출판 선비북스 대표로서 생성형 AI를 활용한 출판사를 운영하고 있습니다.
+                            복잡한 AI 기술을 누구나 이해할 수 있도록 쉽게 전달하는 것이 저의 강점입니다.
+                        </p>
+                        <ul class="about-list">
+                            <li>한국외국어대학교 영문학/언론정보학 전공</li>
+                            <li>도서출판 선비북스 대표 (2020~현재)</li>
+                            <li>한국능률협회 ChatGPT 분야 전임강사</li>
+                            <li>한국표준협회 생성형 AI 전임위원</li>
+                            <li>한국관광공사 시민·자문위원</li>
+                            <li>전북도민일보 전문필진 위원</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 전문분야 섹션 ========== -->
+        <section id="expertise" class="expertise section">
+            <div class="container">
+                <h2 class="section-title" data-animate="fadeUp">Expertise</h2>
+                <div class="expertise-grid">
+                    <div class="expertise-card" data-animate="fadeUp" data-delay="0.1">
+                        <div class="expertise-icon">AI</div>
+                        <h3>생성형 AI 활용</h3>
+                        <p>ChatGPT, 생성형 AI를 활용한 업무 자동화, 콘텐츠 제작, 글쓰기 테크닉</p>
+                        <ul>
+                            <li>ChatGPT 실무 활용</li>
+                            <li>AI 글쓰기 테크닉</li>
+                            <li>사업계획서 작성</li>
+                            <li>업무 자동화</li>
+                        </ul>
+                    </div>
+                    <div class="expertise-card" data-animate="fadeUp" data-delay="0.2">
+                        <div class="expertise-icon">Tour</div>
+                        <h3>관광산업 AI</h3>
+                        <p>관광 콘텐츠 기획, 관광 비즈니스와 AI의 융합, 관광 트렌드 분석</p>
+                        <ul>
+                            <li>관광 콘텐츠 기획</li>
+                            <li>관광 AI 융합 전략</li>
+                            <li>관광안내 인력교육</li>
+                            <li>관광 창업 멘토링</li>
+                        </ul>
+                    </div>
+                    <div class="expertise-card" data-animate="fadeUp" data-delay="0.3">
+                        <div class="expertise-icon">Biz</div>
+                        <h3>기업 맞춤 교육</h3>
+                        <p>대기업, 공공기관, 스타트업 대상 맞춤형 AI 교육 및 컨설팅</p>
+                        <ul>
+                            <li>신입사원 AI 교육</li>
+                            <li>직원 역량 강화</li>
+                            <li>사내 AI 도입 컨설팅</li>
+                            <li>창업가 AI 특강</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 주요 강의 이력 섹션 ========== -->
+        <section id="clients" class="clients section">
+            <div class="container">
+                <h2 class="section-title" data-animate="fadeUp">Clients</h2>
+                <p class="section-subtitle" data-animate="fadeUp">다양한 기관에서 생성형 AI와 관광 분야 강의를 진행했습니다</p>
+
+                <div class="client-category" data-animate="fadeUp" data-delay="0.1">
+                    <h3>대기업</h3>
+                    <div class="client-tags">
+                        <span class="client-tag">SK그룹 (SK아카데미)</span>
+                        <span class="client-tag">LG그룹</span>
+                        <span class="client-tag">콜마홀딩스</span>
+                        <span class="client-tag">종근당</span>
+                        <span class="client-tag">코아스(KOAS)</span>
+                    </div>
+                </div>
+
+                <div class="client-category" data-animate="fadeUp" data-delay="0.2">
+                    <h3>공공기관</h3>
+                    <div class="client-tags">
+                        <span class="client-tag">한국관광공사</span>
+                        <span class="client-tag">국립중앙과학관</span>
+                        <span class="client-tag">국립중앙박물관</span>
+                        <span class="client-tag">한국인터넷진흥원</span>
+                        <span class="client-tag">한국소비자원</span>
+                        <span class="client-tag">기술보증기금</span>
+                        <span class="client-tag">한국마사회</span>
+                        <span class="client-tag">전력거래소</span>
+                        <span class="client-tag">국민체육진흥공단</span>
+                        <span class="client-tag">장애인고용공단</span>
+                    </div>
+                </div>
+
+                <div class="client-category" data-animate="fadeUp" data-delay="0.3">
+                    <h3>지자체 및 관광공사</h3>
+                    <div class="client-tags">
+                        <span class="client-tag">경기도청</span>
+                        <span class="client-tag">서울시 광진구청</span>
+                        <span class="client-tag">경기관광공사</span>
+                        <span class="client-tag">인천관광공사</span>
+                        <span class="client-tag">전남관광재단</span>
+                        <span class="client-tag">김포시청</span>
+                    </div>
+                </div>
+
+                <div class="client-category" data-animate="fadeUp" data-delay="0.4">
+                    <h3>대학교</h3>
+                    <div class="client-tags">
+                        <span class="client-tag">한국외국어대학교</span>
+                        <span class="client-tag">한신대학교</span>
+                        <span class="client-tag">한남대학교</span>
+                        <span class="client-tag">상명대학교</span>
+                        <span class="client-tag">한림국제대학원대학교</span>
+                        <span class="client-tag">용인예술과학대학교</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 저서 섹션 ========== -->
+        <section id="books" class="books section">
+            <div class="container">
+                <h2 class="section-title" data-animate="fadeUp">Books</h2>
+                <div class="books-grid">
+                    <div class="book-card" data-animate="fadeUp" data-delay="0.1">
+                        <div class="book-cover">
+                            <span>Book</span>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-year">2025</span>
+                            <h3>관광 AI 실무 테크닉</h3>
+                            <p>선비북스</p>
+                        </div>
+                    </div>
+                    <div class="book-card" data-animate="fadeUp" data-delay="0.2">
+                        <div class="book-cover">
+                            <span>Book</span>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-year">2023</span>
+                            <h3>ChatGPT 글쓰기 테크닉</h3>
+                            <p>선비북스 · 한신대학교 교양과목 주교재</p>
+                        </div>
+                    </div>
+                    <div class="book-card" data-animate="fadeUp" data-delay="0.3">
+                        <div class="book-cover">
+                            <span>Book</span>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-year">2023</span>
+                            <h3>챗GPT 프롬프트 사례집</h3>
+                            <p>선비북스</p>
+                        </div>
+                    </div>
+                    <div class="book-card" data-animate="fadeUp" data-delay="0.4">
+                        <div class="book-cover">
+                            <span>Book</span>
+                        </div>
+                        <div class="book-info">
+                            <span class="book-year">2020</span>
+                            <h3>에어비앤비 체험 호스트가이드</h3>
+                            <p>e비즈북스</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 자격사항 섹션 ========== -->
+        <section id="credentials" class="credentials section">
+            <div class="container">
+                <h2 class="section-title" data-animate="fadeUp">Credentials</h2>
+                <div class="credentials-grid">
+                    <div class="credential-item" data-animate="fadeUp" data-delay="0.1">
+                        <span class="credential-icon">EN</span>
+                        <div>
+                            <strong>TOEIC 985 / OPIc AL</strong>
+                            <p>영어 능통</p>
+                        </div>
+                    </div>
+                    <div class="credential-item" data-animate="fadeUp" data-delay="0.2">
+                        <span class="credential-icon">Tour</span>
+                        <div>
+                            <strong>관광통역안내사 (영어)</strong>
+                            <p>문화체육관광부</p>
+                        </div>
+                    </div>
+                    <div class="credential-item" data-animate="fadeUp" data-delay="0.3">
+                        <span class="credential-icon">Edu</span>
+                        <div>
+                            <strong>평생교육사</strong>
+                            <p>국가평생교육진흥원</p>
+                        </div>
+                    </div>
+                    <div class="credential-item" data-animate="fadeUp" data-delay="0.4">
+                        <span class="credential-icon">Biz</span>
+                        <div>
+                            <strong>공인중개사</strong>
+                            <p>국토교통부</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 연락처 섹션 ========== -->
+        <section id="contact" class="contact section">
+            <div class="container">
+                <h2 class="section-title" data-animate="fadeUp">Contact</h2>
+                <div class="contact-content">
+                    <div class="contact-info" data-animate="fadeLeft">
+                        <h3>강의 및 컨설팅 문의</h3>
+                        <p>기업 교육, 공공기관 특강, 출판 협업 등<br>편하게 연락주세요.</p>
+                        <ul class="contact-list">
+                            <li>
+                                <strong>이메일</strong>
+                                <span>mj859833@gmail.com</span>
+                            </li>
+                            <li>
+                                <strong>전화</strong>
+                                <span>010-2735-8598</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="contact-form" data-animate="fadeRight">
+                        <form id="contactForm">
+                            <input type="text" id="nameInput" placeholder="이름 / 기관명" required>
+                            <input type="email" id="emailInput" placeholder="이메일" required>
+                            <input type="text" id="typeInput" placeholder="문의 유형 (강의/컨설팅/출판 등)">
+                            <textarea id="messageInput" placeholder="문의 내용" rows="5" required></textarea>
+                            <button type="submit" class="btn btn-primary">문의하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 푸터 ========== -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2025 정민제 강사 · 도서출판 선비북스. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#">넷플연가</a>
+                    <a href="#">크몽</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ========== JavaScript ========== -->
+    <script>
+        // GSAP 플러그인 등록
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 패럴랙스 배경 애니메이션
+        const parallaxBg = gsap.timeline();
+        ScrollTrigger.create({
+            animation: parallaxBg,
+            trigger: ".scroll-container",
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 1
         });
-      });
-    });
-    
-    // Form
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      alert(`감사합니다, ${name}님!\n상담 신청이 완료되었습니다.`);
-      this.reset();
-    });
-  </script>
+
+        // 태양 이동 (위에서 아래로)
+        parallaxBg.to("#sun", { cy: 450, duration: 1 }, 0);
+
+        // 하늘 색상 변화 (일몰 -> 밤)
+        parallaxBg.to("#sky-center", { stopColor: "#1a1a2e", duration: 1 }, 0);
+        parallaxBg.to("#sky-grad stop:nth-child(2)", { stopColor: "#2b2850", duration: 1 }, 0);
+        parallaxBg.to("#sky-grad stop:nth-child(3)", { stopColor: "#3d3a6d", duration: 1 }, 0);
+        parallaxBg.to("#sky-grad stop:nth-child(4)", { stopColor: "#564d7a", duration: 1 }, 0);
+
+        // 태양 색상 변화 (금색 -> 주황 -> 빨강)
+        parallaxBg.to("#sun", { fill: "#ff6b6b", opacity: 0.3, duration: 1 }, 0);
+
+        // 별 나타나기
+        parallaxBg.to("#stars", { opacity: 1, duration: 0.5 }, 0.5);
+
+        // 구름 이동
+        parallaxBg.to("#cloud1", { x: -200, opacity: 0, duration: 1 }, 0);
+        parallaxBg.to("#cloud2", { x: 200, opacity: 0, duration: 1 }, 0);
+        parallaxBg.to("#cloud3", { y: -50, opacity: 0, duration: 1 }, 0);
+
+        // 언덕 패럴랙스 효과
+        parallaxBg.to("#hill-3", { y: -30, duration: 1 }, 0);
+        parallaxBg.to("#hill-2", { y: -20, duration: 1 }, 0);
+        parallaxBg.to("#hill-1", { y: -10, duration: 1 }, 0);
+
+        // 별 반짝임 애니메이션
+        gsap.to("#stars circle", {
+            opacity: 0.3,
+            duration: 0.5,
+            stagger: {
+                each: 0.2,
+                repeat: -1,
+                yoyo: true
+            }
+        });
+
+        // 스크롤 애니메이션 (섹션 요소들)
+        document.querySelectorAll('[data-animate]').forEach(element => {
+            const animationType = element.dataset.animate;
+            const delay = element.dataset.delay || 0;
+
+            let fromVars = { opacity: 0 };
+            let toVars = { opacity: 1, duration: 1, delay: parseFloat(delay) };
+
+            switch(animationType) {
+                case 'fadeUp':
+                    fromVars.y = 50;
+                    toVars.y = 0;
+                    break;
+                case 'fadeLeft':
+                    fromVars.x = -50;
+                    toVars.x = 0;
+                    break;
+                case 'fadeRight':
+                    fromVars.x = 50;
+                    toVars.x = 0;
+                    break;
+            }
+
+            gsap.fromTo(element, fromVars, {
+                ...toVars,
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // 네비게이션 배경 변경
+        ScrollTrigger.create({
+            trigger: ".scroll-container",
+            start: "100 top",
+            onEnter: () => document.querySelector('.navbar').classList.add('scrolled'),
+            onLeaveBack: () => document.querySelector('.navbar').classList.remove('scrolled')
+        });
+
+        // 이메일 폼 연동
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('nameInput').value;
+            const email = document.getElementById('emailInput').value;
+            const type = document.getElementById('typeInput').value;
+            const message = document.getElementById('messageInput').value;
+
+            const subject = `[강의문의] ${type ? type + ' - ' : ''}${name}`;
+            const body = `이름/기관명: ${name}
+이메일: ${email}
+문의 유형: ${type || '미입력'}
+
+문의 내용:
+${message}`;
+
+            window.location.href = `mailto:mj859833@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        });
+
+        // 부드러운 스크롤
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
